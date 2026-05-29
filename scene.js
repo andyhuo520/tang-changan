@@ -16,7 +16,7 @@ import {
 // 丹青馆 — 大明宫边墙旁的 WASD-触发式 DIY 体验馆
 import * as DiyHall from './lib/world/diy-hall.js?v=20260527-v1';
 // AI 顶流品牌街 — 朱雀大街上的牌坊 + 远岛展馆
-import * as BrandPlaza from './lib/world/brand-plaza.js?v=20260528-bgm-classical';
+import * as BrandPlaza from './lib/world/brand-plaza.js?v=20260529-agora-logo';
 if (typeof window !== 'undefined') {
   window.MODEL_REGISTRY = MODEL_REGISTRY;
   window.loadCharacter = loadCharacter;
@@ -8564,7 +8564,7 @@ const PORTRAIT_META = {
   gate_guard: { name: '陈忠武', sub: '朱雀门校尉',             glyph: '武' },
   docent:     { name: '苏阮卿', sub: '画学博士 · 万邦讲席',    glyph: '画' },
   brand_docent:   { name: '智机使',        sub: '天枢府特使 · AI 品牌街讲席', glyph: '智' },
-  brand_agora:    { name: '智机使 · 声派', sub: '声网 Agora 馆 · 实时音视频派', glyph: '声' },
+  brand_agora:    { name: '智机使 · 声派', sub: 'Agora 馆 · 实时音视频派', glyph: '声' },
   brand_claude:   { name: '智机使 · 翰派', sub: 'Claude · Anthropic 馆 · 长卷长上下文派', glyph: '翰' },
   brand_openai:   { name: '智机使 · 元派', sub: 'OpenAI 馆 · 开门人', glyph: '元' },
   brand_chatgpt:  { name: '智机使 · 万民派', sub: 'ChatGPT 馆 · 亿人对话产品', glyph: '问' },
@@ -12201,7 +12201,7 @@ BrandPlaza.install({ scene, gameState });
 
   const touristSpots = [
     { x: 31, z: -8,  role: 'civilian', label: '北门游客',     intro: '此坊真新奇! AI 一条街, 古今穿越!' },
-    { x: 47, z: -7,  role: 'civilian', label: '东北角游客',   intro: '听说此处有声网 Agora, 能直接对话, 我去试试!' },
+    { x: 47, z: -7,  role: 'civilian', label: '东北角游客',   intro: '听说此处有 Agora, 能直接对话, 我去试试!' },
     { x: 32, z: 17,  role: 'civilian', label: '南门游客',     intro: '小姐姐, 听说每个馆都有"智机使"讲解, 是真的吗?' },
     { x: 45, z: 16,  role: 'civilian', label: '东南角游客',   intro: '哎呀这味道太正了, 帮我跟牌坊合个影!' },
   ];

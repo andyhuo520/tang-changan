@@ -16,7 +16,7 @@ import {
 // 丹青馆 — 大明宫边墙旁的 WASD-触发式 DIY 体验馆
 import * as DiyHall from './lib/world/diy-hall.js?v=20260527-v1';
 // AI 顶流品牌街 — 朱雀大街上的牌坊 + 远岛展馆
-import * as BrandPlaza from './lib/world/brand-plaza.js?v=20260529-agora-rename';
+import * as BrandPlaza from './lib/world/brand-plaza.js?v=20260529-agora-only';
 if (typeof window !== 'undefined') {
   window.MODEL_REGISTRY = MODEL_REGISTRY;
   window.loadCharacter = loadCharacter;

@@ -10,7 +10,9 @@
       try {
         const p = new URLSearchParams(location.search);
         const m = p.get('uimode') || 'diegetic';
-        if (p.has('world') && m !== 'html') {
+        // 默认直接进入长安 (world=new); 仅当显式 ?home / ?legacy / ?world=off 时回到旧首页
+        const wantHome = p.has('home') || p.has('legacy') || p.get('world') === 'off';
+        if (!wantHome && m !== 'html') {
           document.documentElement.classList.add('v2-active');
           document.addEventListener('DOMContentLoaded', () => {
             document.body && document.body.classList.add('v2-active');
@@ -198,6 +200,40 @@
       50%      { box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 0 1px rgba(216, 178, 90, 0.5), 0 0 44px rgba(216, 178, 90, 0.55); }
     }
     .app.game-on .enter-game-cta { display: none; }
+
+    /* ---- 返回首页按钮 (仅长安视图显示) ---- */
+    .home-return-btn {
+      position: absolute;
+      top: 76px;
+      left: 78px;
+      z-index: 12;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px 9px 13px;
+      border-radius: 999px;
+      background: rgba(20, 17, 15, 0.82);
+      color: var(--gold, #c8a45e);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid var(--gold-soft, #8c7848);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    body.v2-active .home-return-btn { display: flex; }
+    .home-return-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(28, 24, 20, 0.95);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.55), 0 0 0 1px rgba(216,178,90,0.4);
+    }
+    .home-return-btn .ico { font-size: 15px; line-height: 1; }
+    /* 进入 WASD 操控后隐藏, 避免和 HUD 抢位置 */
+    .app.game-on .home-return-btn { display: none; }
 
     /* 首次到访 — 在 CTA 旁边浮一个气泡，提醒玩家可以走进来 */
     .enter-game-nudge {
@@ -1937,6 +1973,12 @@
 
     <!-- MAIN STAGE -->
     <main class="stage">
+      <!-- 返回旧首页 (仅长安视图显示) -->
+      <a class="home-return-btn" id="homeReturnBtn" href="?home" aria-label="返回首页">
+        <span class="ico">⟵</span>
+        <span>返回首页</span>
+      </a>
+
       <!-- 主 CTA: 进入操控视角 (走进长安) -->
       <button class="enter-game-cta" id="enterGameCta" type="button" aria-label="进入操控视角">
         <span class="ico">▶</span>
@@ -2289,8 +2331,8 @@
       }
     }
   </script>
-  <script type="module" src="./scene.js?v=20260529-agora-logo"></script>
-  <script type="module" src="./lib/bootstrap.js?v=20260529-agora-logo"></script>
+  <script type="module" src="./scene.js?v=20260529-default-changan"></script>
+  <script type="module" src="./lib/bootstrap.js?v=20260529-default-changan"></script>
   <script>
     // 语音面板关闭按钮 + Esc 关闭快捷键
     (function () {

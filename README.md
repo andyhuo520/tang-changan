@@ -1,6 +1,9 @@
 # 大唐长安 · Tang Chang'an Diorama (V11)
 
 复刻 Expeditione™ 风格的互动微缩沙盘，主题 **大唐百年史**。120×160 单位级地图、**三大殿纵轴**（含元 → 宣政 → 紫宸）、跨河桥梁、七层大雁塔、曲江画舫、朱雀城门、东西二市、稻麦水利、胡旋舞乐——配以 **昼夜流转 · 四季流转 · 宵禁夜禁 · 唐诗节点 · 寺钟鸡鸣 · 天气切换（雨/沙/雾 + 闪电雷声 + 风向斜飘）· NPC 市井段子 · 历史事件轴 · 4 款 mini-game · 移动端适配 · 🎮 RPG 模式 · 👀 第一人称 FPS 模式 · 🖼 5 座 360° 殿宇展厅**，一幅可漫游、可对话、可吟诗、可游戏、可扮演、可入殿看展、可穿越百年的盛唐画卷。
+<img width="2950" height="1590" alt="image" src="https://github.com/user-attachments/assets/546e014d-cf7a-4ab6-a232-1c95c02da8a2" />
+
+<img width="2964" height="1588" alt="image" src="https://github.com/user-attachments/assets/ad984cc1-c831-43db-8d83-87500159a601" />
 
 ## V11 · 经济基建 · 4 币种 · 5 类物品 · 5 处店铺
 

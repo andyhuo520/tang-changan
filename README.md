@@ -5,6 +5,19 @@
 
 <img width="2964" height="1588" alt="image" src="https://github.com/user-attachments/assets/ad984cc1-c831-43db-8d83-87500159a601" />
 
+## 开发教程与 Agora Skills 安装
+
+- 科普教程 Markdown：[`docs/05_从设计到完成_开发过程科普教程.md`](docs/05_从设计到完成_开发过程科普教程.md)
+- 精排 HTML 版：[`docs/05_从设计到完成_开发过程科普教程.html`](docs/05_从设计到完成_开发过程科普教程.html)
+
+教程中的「7.0 开发前置：安装 Agora Skills / Agora CLI」包含：
+
+- 安装 `agora` CLI；
+- `agora login` 登录；
+- `agora project doctor --feature convoai` 检查 ConvoAI；
+- `agora project env write .env.local --overwrite` 写入语音后端环境变量；
+- 常见 `CAN_NOT_GET_GATEWAY_SERVER` / `401 Invalid token` 排查。
+
 ## V11 · 经济基建 · 4 币种 · 5 类物品 · 5 处店铺
 
 游戏 (Mode 2) 与展示 (Mode 1) 至此**真正分家** —— Mode 2 多出一套有源有汇的经济：

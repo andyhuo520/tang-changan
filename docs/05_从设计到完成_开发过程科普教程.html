@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>从设计到完成：我们如何做出《大唐长安 · 智机府》</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --paper: #ffffff;
+      --ink: #1c2430;
+      --muted: #667085;
+      --line: #dbe2ea;
+      --accent: #0f766e;
+      --accent-2: #2563eb;
+      --soft: #eef7f5;
+      --shadow: 0 18px 45px rgba(15, 23, 42, .08);
+      --radius: 8px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(15, 118, 110, .09), transparent 30%),
+        linear-gradient(180deg, #f3f7fa 0%, var(--bg) 360px, var(--bg) 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.75;
+      letter-spacing: 0;
+    }
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .progress { position: fixed; inset: 0 auto auto 0; width: 0; height: 3px; z-index: 10; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+      gap: 28px;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+    .toc-panel {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      padding: 18px 16px;
+      background: rgba(255, 255, 255, .86);
+      border: 1px solid rgba(219, 226, 234, .9);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, .05);
+      backdrop-filter: blur(12px);
+    }
+    .toc-title {
+      margin: 0 0 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .toc-panel ul { list-style: none; padding-left: 0; margin: 0; }
+    .toc-panel li { margin: 3px 0; }
+    .toc-panel ul ul { padding-left: 14px; margin-top: 3px; border-left: 1px solid var(--line); }
+    .toc-panel a {
+      display: block;
+      padding: 5px 6px;
+      border-radius: 6px;
+      color: #425466;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .toc-panel a:hover, .toc-panel a.active { background: var(--soft); color: var(--accent); text-decoration: none; }
+    main {
+      min-width: 0;
+      background: var(--paper);
+      border: 1px solid rgba(219, 226, 234, .9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    article { padding: 46px min(6vw, 76px) 68px; }
+    h1 {
+      margin: -46px min(-6vw, -76px) 34px;
+      padding: 58px min(6vw, 76px) 44px;
+      color: #fff;
+      background: linear-gradient(135deg, #0f766e 0%, #155e75 52%, #1d4ed8 100%);
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.14;
+      font-weight: 800;
+    }
+    h2 {
+      margin: 54px 0 18px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      font-size: clamp(22px, 2.3vw, 30px);
+      line-height: 1.35;
+      color: #0f172a;
+    }
+    h3 { margin: 34px 0 12px; font-size: 21px; color: #17324d; }
+    h4 { margin: 26px 0 10px; font-size: 17px; color: #344054; }
+    p { margin: 12px 0; }
+    strong { color: #0f172a; font-weight: 700; }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+    blockquote {
+      margin: 18px 0 24px;
+      padding: 12px 16px;
+      color: #475467;
+      background: var(--soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    ul, ol { padding-left: 1.35em; }
+    li { margin: 4px 0; }
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      margin: 18px 0 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+      table-layout: auto;
+    }
+    th, td {
+      min-width: 112px;
+      padding: 11px 13px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      background: #fff;
+    }
+    th {
+      color: #0f172a;
+      background: #eef4f8;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    tr:nth-child(even) td { background: #fbfcfe; }
+    tr:last-child td { border-bottom: 0; }
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 24px auto 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, .08);
+      background: #fff;
+    }
+    code {
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: #f1f5f9;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .92em;
+    }
+    pre { overflow: auto; padding: 16px; background: #0f172a; color: #e5e7eb; border-radius: var(--radius); }
+    pre code { padding: 0; color: inherit; background: transparent; }
+    .mermaid {
+      margin: 26px 0 30px;
+      padding: 18px;
+      overflow-x: auto;
+      text-align: center;
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .back-top {
+      display: none;
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--accent);
+      box-shadow: 0 8px 22px rgba(15, 23, 42, .2);
+      cursor: pointer;
+    }
+    .back-top.show { display: block; }
+    @media (max-width: 1020px) {
+      .layout { display: block; padding: 14px; }
+      .toc-panel { position: relative; top: 0; max-height: 280px; margin-bottom: 14px; }
+      article { padding: 28px 18px 42px; }
+      h1 { margin: -28px -18px 28px; padding: 38px 18px 32px; }
+      th, td { min-width: 120px; padding: 10px; }
+    }
+    @media print {
+      body { background: #fff; }
+      .layout { display: block; max-width: none; padding: 0; }
+      .toc-panel, .progress, .back-top { display: none !important; }
+      main { border: 0; box-shadow: none; }
+      article { padding: 0; }
+      h1 { margin: 0 0 24px; color: #111827; background: none; padding: 0; }
+      a { color: inherit; }
+      .table-scroll, table { page-break-inside: avoid; }
+      img, blockquote, pre { page-break-inside: avoid; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress"></div>
+  <div class="layout">
+    <aside class="toc-panel" aria-label="目录">
+      <p class="toc-title">目录</p>
+      <div class="toc">
+<ul>
+<li><a href="#_1">从设计到完成：我们如何做出《大唐长安 · 智机府》</a><ul>
+<li><a href="#1">1. 最初的设计目标</a></li>
+<li><a href="#2">2. 第一阶段：先搭出一个能看的长安沙盘</a></li>
+<li><a href="#3">3. 第二阶段：把展示页变成可玩的游戏</a></li>
+<li><a href="#4-npc">4. 第三阶段：让 NPC 不只是摆设</a><ul>
+<li><a href="#41-npc">4.1 NPC 互动</a></li>
+<li><a href="#42">4.2 诗词小游戏</a></li>
+</ul>
+</li>
+<li><a href="#5">5. 第四阶段：做珍宝馆与诗画展厅</a></li>
+<li><a href="#6-ai">6. 第五阶段：加入 AI 展馆</a></li>
+<li><a href="#7-agent">7. 第六阶段：接入实时语音 Agent</a><ul>
+<li><a href="#70-agora-skills-agora-cli">7.0 开发前置：安装 Agora Skills / Agora CLI</a><ul>
+<li><a href="#agora-cli">第一步：安装 Agora CLI</a></li>
+<li><a href="#agora">第二步：登录 Agora</a></li>
+<li><a href="#convoai">第三步：检查项目是否支持 ConvoAI</a></li>
+<li><a href="#agora_1">第四步：把 Agora 项目凭据写入语音后端</a></li>
+<li><a href="#_2">第五步：启动语音服务</a></li>
+<li><a href="#_3">常见错误</a></li>
+</ul>
+</li>
+<li><a href="#71">7.1 基本架构</a></li>
+<li><a href="#72">7.2 一次语音对话发生了什么</a></li>
+<li><a href="#73-persona">7.3 为什么要做 Persona</a></li>
+</ul>
+</li>
+<li><a href="#8-bgm">8. 第七阶段：做角色头像、视频面板与 BGM</a></li>
+<li><a href="#9">9. 第八阶段：解决视觉与尺度问题</a></li>
+<li><a href="#10-github">10. 第九阶段：部署到 GitHub</a></li>
+<li><a href="#11">11. 普通用户怎么体验</a></li>
+<li><a href="#12">12. 开发者如何理解项目结构</a></li>
+<li><a href="#13">13. 这次开发踩过的坑</a><ul>
+<li><a href="#131">13.1 浏览器缓存</a></li>
+<li><a href="#132">13.2 视频自动播放限制</a></li>
+<li><a href="#133">13.3 语音项目账号状态</a></li>
+<li><a href="#134-3d">13.4 3D 尺度</a></li>
+</ul>
+</li>
+<li><a href="#14">14. 如果你想复刻一个类似项目</a></li>
+<li><a href="#15">15. 我们最终做成了什么</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+    </aside>
+    <main>
+      <article>
+        <h1 id="_1">从设计到完成：我们如何做出《大唐长安 · 智机府》</h1>
+<p>这是一份面向普通读者、创作者和初学开发者的科普教程。它不假设你已经懂 Three.js、实时语音或 AI Agent，而是从一个朴素问题开始：</p>
+<blockquote>
+<p>如果一座盛唐长安城不是只能观看，而是可以走进去、和李白对诗、和导游问路、在 AI 展馆里听智能讲解，会是什么体验？</p>
+</blockquote>
+<p>我们用两周左右的高强度开发，把这个想法做成了一个可在线访问、可开源复用的 Web 3D 互动项目。</p>
+<p>项目地址：</p>
+<ul>
+<li>在线体验：<code>https://andyhuo520.github.io/tang-changan/</code></li>
+<li>GitHub：<code>https://github.com/andyhuo520/tang-changan</code></li>
+</ul>
+<hr />
+<h2 id="1">1. 最初的设计目标</h2>
+<p>一开始，我们并不是想做一个普通的“3D 展示页”。我们的目标更像一个小型数字文旅实验：</p>
+<ol>
+<li><strong>它要像游戏一样能玩。</strong> 玩家可以进入场景，用 WASD 操控角色，而不是只能转动相机看模型。</li>
+<li><strong>它要像博物馆一样能逛。</strong> 场景里有宫殿、朱雀大街、珍宝馆、诗画展厅、AI 展馆。</li>
+<li><strong>它要像真实导览一样能说话。</strong> 玩家不是点几个固定按钮，而是能按住麦克风和 NPC 语音交流。</li>
+<li><strong>它要有盛唐气质。</strong> 色彩、建筑、人物、诗词、小游戏都围绕“长安”“诗酒”“万邦来朝”展开。</li>
+<li><strong>它要能开源。</strong> 最终要能部署到 GitHub Pages，让别人直接体验，也能阅读代码学习。</li>
+</ol>
+<p>用一句话概括：</p>
+<blockquote>
+<p>我们想把“盛唐长安”做成一个可漫游、可对话、可游戏、可展示 AI 能力的浏览器 3D 世界。</p>
+</blockquote>
+<hr />
+<h2 id="2">2. 第一阶段：先搭出一个能看的长安沙盘</h2>
+<p>任何复杂互动项目，第一步都不是做功能，而是先让“世界存在”。</p>
+<p>我们先用 Web 3D 技术搭建了一个低多边形风格的长安微缩沙盘。核心技术是 <strong>Three.js</strong>：它可以在浏览器中渲染 3D 场景，不需要用户安装客户端。</p>
+<p>这一阶段的重点是：</p>
+<ul>
+<li>建立主场景、相机、灯光、后期效果；</li>
+<li>搭建朱雀大街、宫殿、城门、市集、塔楼、河道等地标；</li>
+<li>用低多边形材质保持性能，让普通浏览器也能跑；</li>
+<li>加入昼夜、季节、天气、雾效等氛围变化；</li>
+<li>做出俯瞰视角，让它第一眼像一张“会动的唐代城市地图”。</li>
+</ul>
+<p>这一阶段看起来像“美术搭建”，但其实它决定了后续所有玩法的边界：哪里能走、哪里能互动、哪些地标能承载剧情。</p>
+<hr />
+<h2 id="3">3. 第二阶段：把展示页变成可玩的游戏</h2>
+<p>只有沙盘还不够。我们希望玩家不是“看长安”，而是“走进长安”。</p>
+<p>于是项目进入第二阶段：加入 <strong>WASD 游戏模式</strong>。</p>
+<p>玩家点击「走进长安」后，会进入角色选择：</p>
+<ul>
+<li>世子</li>
+<li>商贾</li>
+<li>侍女</li>
+<li>游侠</li>
+</ul>
+<p>每个角色有自己的头像、默认名字、初始钱包和物品。进入游戏后，玩家可以：</p>
+<ul>
+<li>用 <strong>WASD</strong> 移动；</li>
+<li>用鼠标调整视角；</li>
+<li>靠近 NPC 按 <strong>E</strong> 对话；</li>
+<li>靠近店铺或展馆按 <strong>F</strong> 触发互动；</li>
+<li>查看钱包、体力、行囊、任务提示。</li>
+</ul>
+<p>这一阶段真正完成了从“3D 页面”到“小游戏”的转变。</p>
+<hr />
+<h2 id="4-npc">4. 第三阶段：让 NPC 不只是摆设</h2>
+<p>很多 3D 场景的问题是：建筑很漂亮，但里面没有生活。</p>
+<p>所以我们给城市加了大量 NPC 和小游戏，让它变得有烟火气。</p>
+<h3 id="41-npc">4.1 NPC 互动</h3>
+<p>玩家靠近路人、文士、商贾、仕女、官员、僧人等 NPC，可以触发对话。不同 NPC 会有不同身份和口吻。</p>
+<h3 id="42">4.2 诗词小游戏</h3>
+<p>我们设计了偏唐风的互动玩法：</p>
+<ul>
+<li><strong>飞花令</strong>：给出一个关键字，玩家从诗句中选择含有该字的一句；</li>
+<li><strong>对对联</strong>：给出上联，从多个候选句里选下联；</li>
+<li><strong>猜谜</strong>：用民俗谜语和长安史实做选择题；</li>
+<li><strong>猜拳</strong>：快速轻量的小互动，配合随机奖励。</li>
+</ul>
+<p>小游戏不是单纯为了“好玩”，而是让诗词和历史知识变成可参与的体验。</p>
+<hr />
+<h2 id="5">5. 第四阶段：做珍宝馆与诗画展厅</h2>
+<p>为了让项目更像数字文旅产品，我们加入了展厅系统。</p>
+<p>玩家可以进入不同展馆，欣赏诗画、珍宝和历史主题内容。例如：</p>
+<ul>
+<li>《步辇图》</li>
+<li>《历代帝王图》</li>
+<li>《簪花仕女图》</li>
+<li>诗词与书画主题展</li>
+<li>丹青馆 DIY 展厅</li>
+</ul>
+<p>展厅的作用是把“游戏”与“文化内容”连接起来：玩家既可以玩，也可以看展、听讲解、理解背后的历史语境。</p>
+<hr />
+<h2 id="6-ai">6. 第五阶段：加入 AI 展馆</h2>
+<p>项目最特别的一部分，是我们把现代 AI 品牌做成了唐风展馆。</p>
+<p>我们设计了一个“天枢府 / AI 展馆”概念：在盛唐长安里出现一个古今穿越的科技坊市。不同 AI 品牌不再只是 logo，而是变成一座座唐风殿宇，每个展馆都有自己的讲席和风格。</p>
+<p>其中 Agora 馆作为核心语音互动展馆，承担了实时语音能力展示。</p>
+<p>在视觉上，我们做了：</p>
+<ul>
+<li>唐风殿宇；</li>
+<li>品牌 logo 立柱；</li>
+<li>发光牌匾；</li>
+<li>展馆说明牌；</li>
+<li>可交互门口热点；</li>
+<li>现代科技与古代街景混合的小彩蛋。</li>
+</ul>
+<p>在叙事上，我们把它包装成：</p>
+<blockquote>
+<p>大唐长安出现了一座“智机府”，各路 AI 智机使在这里讲解不同的智能能力。</p>
+</blockquote>
+<p>这样做的好处是：AI 展示不再像一个冷冰冰的产品页面，而是变成了玩家在游戏世界里能探索的一部分。</p>
+<hr />
+<h2 id="7-agent">7. 第六阶段：接入实时语音 Agent</h2>
+<p>这是整个项目最核心、也最难调的一部分。</p>
+<p>我们的目标不是让 NPC 弹出文字框，而是让玩家真的能用语音和角色交流。</p>
+<h3 id="70-agora-skills-agora-cli">7.0 开发前置：安装 Agora Skills / Agora CLI</h3>
+<p>在这个项目里，Agora 语音能力并不是直接把 App ID 写死在网页里，而是通过 <strong>Agora Skills + Agora CLI</strong> 完成项目登录、能力检查、环境变量写入和 ConvoAI 就绪检查。</p>
+<p>你可以把它理解成：</p>
+<blockquote>
+<p>Agora Skills 负责告诉 Agent 怎么集成 Agora；Agora CLI 负责登录账号、绑定项目、写入 <code>.env.local</code>。</p>
+</blockquote>
+<h4 id="agora-cli">第一步：安装 Agora CLI</h4>
+<p>如果本机还没有 <code>agora</code> 命令，可以安装：</p>
+<pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/AgoraIO/cli/main/install.sh | sh
+</code></pre>
+<p>安装后检查：</p>
+<pre><code class="language-bash">agora doctor
+</code></pre>
+<p>如果终端能看到 <code>Agora CLI install is healthy</code>，说明 CLI 本身可用。</p>
+<h4 id="agora">第二步：登录 Agora</h4>
+<pre><code class="language-bash">agora login
+</code></pre>
+<p>命令会打开浏览器完成授权。登录后检查状态：</p>
+<pre><code class="language-bash">agora auth status
+</code></pre>
+<h4 id="convoai">第三步：检查项目是否支持 ConvoAI</h4>
+<p>实时语音 Agent 依赖 Agora 的 Conversational AI 能力。可以运行：</p>
+<pre><code class="language-bash">agora project doctor --feature convoai
+</code></pre>
+<p>如果提示没有启用，可以尝试：</p>
+<pre><code class="language-bash">agora project feature enable convoai
+</code></pre>
+<p>然后再次运行 doctor 确认。</p>
+<h4 id="agora_1">第四步：把 Agora 项目凭据写入语音后端</h4>
+<p>本项目的语音后端读取：</p>
+<pre><code class="language-text">tang-voice-agent/server/.env.local
+</code></pre>
+<p>其中最关键的是：</p>
+<pre><code class="language-env">AGORA_APP_ID=...
+AGORA_APP_CERTIFICATE=...
+</code></pre>
+<p>可以让 Agora CLI 自动写入：</p>
+<pre><code class="language-bash">cd tang-voice-agent/server
+agora project env write .env.local --overwrite
+</code></pre>
+<blockquote>
+<p>注意：<code>AGORA_APP_CERTIFICATE</code> 是敏感信息，不要提交到 GitHub。项目的 <code>.gitignore</code> 已经忽略 <code>.env.local</code>。</p>
+</blockquote>
+<h4 id="_2">第五步：启动语音服务</h4>
+<p>后端：</p>
+<pre><code class="language-bash">cd tang-voice-agent/server
+source venv/bin/activate
+python3 src/server.py
+</code></pre>
+<p>前端 iframe：</p>
+<pre><code class="language-bash">cd tang-voice-agent/web
+AGENT_BACKEND_URL=http://localhost:8000 bun run dev
+</code></pre>
+<p>主游戏默认会把语音面板指向：</p>
+<pre><code class="language-text">http://localhost:3000
+</code></pre>
+<p>如果线上部署语音服务，可以通过 URL 参数指定：</p>
+<pre><code class="language-text">?voiceOrigin=https://你的语音前端域名
+</code></pre>
+<h4 id="_3">常见错误</h4>
+<p>如果看到：</p>
+<pre><code class="language-text">CAN_NOT_GET_GATEWAY_SERVER: no active status
+401 Invalid token
+</code></pre>
+<p>通常不是前端按钮坏了，而是 Agora 项目或凭据不可用。优先检查：</p>
+<ul>
+<li><code>agora auth status</code> 是否已登录；</li>
+<li><code>agora project list</code> 是否能正常列出项目；</li>
+<li>当前账号是否被限制或 blocked；</li>
+<li><code>agora project doctor --feature convoai</code> 是否通过；</li>
+<li><code>.env.local</code> 里的 App ID / Certificate 是否来自同一个项目；</li>
+<li>修改 <code>.env.local</code> 后是否重启了后端。</li>
+</ul>
+<h3 id="71">7.1 基本架构</h3>
+<p>项目被拆成两部分：</p>
+<pre><code class="language-text">han-diorama
+  浏览器 3D 主场景
+  负责 Three.js、WASD、NPC、展馆、小游戏
+
+tang-voice-agent
+  语音智能体子项目
+  前端是 Next.js iframe
+  后端是 FastAPI / Python
+  负责 Agora ConvoAI、Persona、语音对话
+</code></pre>
+<p>主场景里点击 NPC 后，会打开右侧语音面板。这个面板本质上是一个嵌入的 iframe，它和主游戏通过 <code>postMessage</code> 通信。</p>
+<h3 id="72">7.2 一次语音对话发生了什么</h3>
+<p>当玩家按住麦克风说话时，大致流程是：</p>
+<pre><code class="language-text">玩家麦克风
+  ↓
+浏览器 RTC 上行
+  ↓
+Agora 实时音频链路
+  ↓
+ConvoAI：语音识别 → 大模型思考 → TTS 合成
+  ↓
+AI 声音通过 RTC 回到浏览器
+  ↓
+游戏里 NPC 头像、字幕、状态同步变化
+</code></pre>
+<p>普通用户看到的是“我和李白说话了”。技术上背后是实时音频、语音识别、大模型、语音合成和游戏状态同步一起工作。</p>
+<h3 id="73-persona">7.3 为什么要做 Persona</h3>
+<p>如果所有 NPC 都用同一个提示词，它们就会像同一个机器人。</p>
+<p>所以我们给不同角色做了不同 Persona：</p>
+<ul>
+<li>李白：诗酒豪放；</li>
+<li>杜甫：沉郁关怀；</li>
+<li>王维：山水空灵；</li>
+<li>周引之：导游身份，可以带路；</li>
+<li>苏阮卿：画学博士，负责讲画；</li>
+<li>智机使 · Agora 馆：讲解实时语音与 ConvoAI。</li>
+</ul>
+<p>每个 persona 有自己的：</p>
+<ul>
+<li>名字；</li>
+<li>身份；</li>
+<li>场景位置；</li>
+<li>说话风格；</li>
+<li>TTS 音色；</li>
+<li>可注入的场景上下文。</li>
+</ul>
+<p>这让语音功能不只是“能说话”，而是和游戏世界绑定在一起。</p>
+<hr />
+<h2 id="8-bgm">8. 第七阶段：做角色头像、视频面板与 BGM</h2>
+<p>为了让语音互动更有“面对面”的感觉，我们做了左侧角色 portrait 面板。</p>
+<p>它支持：</p>
+<ul>
+<li><code>idle.jpg / idle.png</code> 静态头像；</li>
+<li><code>idle.mp4</code> 静音循环视频；</li>
+<li><code>intro.mp4</code> 带原声开场视频；</li>
+<li>AI 说话时切换 talking 状态；</li>
+<li>没有素材时自动 fallback。</li>
+</ul>
+<p>后来又加入了古风 BGM：</p>
+<ul>
+<li>默认循环播放古琴 / 古筝曲；</li>
+<li>支持静音、音量、切歌；</li>
+<li>当玩家打开语音对话时，BGM 自动降低音量，避免盖住人声。</li>
+</ul>
+<p>这一步看似是“包装”，但对用户体感影响很大。没有声音和头像时，AI 对话像工具；有了角色视频、字幕和背景音乐后，它更像游戏里的角色。</p>
+<hr />
+<h2 id="9">9. 第八阶段：解决视觉与尺度问题</h2>
+<p>开发中遇到过一个典型问题：AI 展馆一开始太大，放到城市里会出现“浮在地面上”“镜头一转消失”的情况。</p>
+<p>问题根源是单位尺度不一致：</p>
+<ul>
+<li>主城使用的是游戏世界单位；</li>
+<li>AI 展馆早期按更大的现实尺度设计；</li>
+<li>结果展馆实际超出了主城地面范围。</li>
+</ul>
+<p>解决方式是：</p>
+<ul>
+<li>把天枢府缩放到适合主城的面积；</li>
+<li>重新设置展馆中心点；</li>
+<li>调整 3×3 展馆布局；</li>
+<li>缩小 logo 立柱、牌坊、院墙和展馆模型；</li>
+<li>确认所有互动点都落在可见地面内。</li>
+</ul>
+<p>这个经验很重要：3D 项目里，美术好看不够，<strong>尺度一致</strong>才是可玩的前提。</p>
+<hr />
+<h2 id="10-github">10. 第九阶段：部署到 GitHub</h2>
+<p>项目完成后，我们把前端开源部署到了 GitHub。</p>
+<p>前端 <code>han-diorama</code> 是静态 Web 项目，适合用 GitHub Pages 托管。</p>
+<p>部署流程：</p>
+<pre><code class="language-bash">git init
+git add -A
+git commit -m &quot;Initial commit&quot;
+git remote add origin https://github.com/andyhuo520/tang-changan.git
+git push -u origin main
+</code></pre>
+<p>然后使用 GitHub Actions 自动发布 Pages。</p>
+<p>线上地址：</p>
+<pre><code class="language-text">https://andyhuo520.github.io/tang-changan/
+</code></pre>
+<p>需要注意的是：</p>
+<ul>
+<li>GitHub Pages 只能托管静态前端；</li>
+<li>实时语音后端 <code>tang-voice-agent</code> 需要单独部署；</li>
+<li>本地开发时可以用 <code>http://localhost:3000</code> 作为语音 iframe；</li>
+<li>线上如果要启用语音，需要给游戏传入可访问的语音前端地址。</li>
+</ul>
+<hr />
+<h2 id="11">11. 普通用户怎么体验</h2>
+<p>打开：</p>
+<pre><code class="language-text">https://andyhuo520.github.io/tang-changan/
+</code></pre>
+<p>进入页面后可以：</p>
+<ol>
+<li>在沙盘视角浏览盛唐长安；</li>
+<li>点击「走进长安」；</li>
+<li>选择角色：世子 / 商贾 / 侍女 / 游侠；</li>
+<li>用 WASD 移动角色；</li>
+<li>靠近 NPC 按 E 对话；</li>
+<li>靠近展馆或店铺按 F 互动；</li>
+<li>进入珍宝馆看诗画；</li>
+<li>进入 AI 展馆体验语音智能体。</li>
+</ol>
+<p>常用按键：</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>按键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WASD</td>
+<td>移动</td>
+</tr>
+<tr>
+<td>鼠标</td>
+<td>调整视角</td>
+</tr>
+<tr>
+<td>E</td>
+<td>与 NPC 对话 / 触发小游戏</td>
+</tr>
+<tr>
+<td>F</td>
+<td>进入展馆 / 开店 / 触发场景</td>
+</tr>
+<tr>
+<td>Esc</td>
+<td>关闭语音面板</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="12">12. 开发者如何理解项目结构</h2>
+<p>项目可以分成几层：</p>
+<pre><code class="language-text">han-diorama/
+  index.html                 页面结构与 UI 容器
+  scene.js                   主 3D 场景、游戏模式、NPC、语音面板
+  modelLoader.js             角色模型加载
+  assets/                    logo、头像、BGM、预览图
+  portraits/                 NPC 视频 / 头像素材
+  murals/                    画廊素材
+  lib/
+    content/brand-data.js    AI 展馆品牌数据
+    world/brand-plaza.js     AI 展馆 / 天枢府
+    world/gallery-hall.js    珍宝馆 / 展厅
+    world/diy-hall.js        丹青馆 DIY
+    ui/voice-intent.js       语音意图路由
+    hero/                    大明宫、东西市、曲江等地标模块
+
+tang-voice-agent/
+  web/                       Next.js 语音前端 iframe
+  server/                    FastAPI 后端
+  server/src/personas/       角色 Persona
+</code></pre>
+<p>最核心的思想是：</p>
+<blockquote>
+<p>3D 主项目负责“玩家在哪里、看见什么、能做什么”；语音子项目负责“玩家说什么、AI 怎么回答、声音怎么回来”。</p>
+</blockquote>
+<hr />
+<h2 id="13">13. 这次开发踩过的坑</h2>
+<h3 id="131">13.1 浏览器缓存</h3>
+<p>浏览器会缓存 JS 和图片。我们在模块路径后面加版本参数：</p>
+<pre><code class="language-text">scene.js?v=20260529-agora-only
+</code></pre>
+<p>这样每次重要更新后，线上用户能加载到新代码。</p>
+<h3 id="132">13.2 视频自动播放限制</h3>
+<p>浏览器通常不允许带声音的视频自动播放。解决方式：</p>
+<ul>
+<li>先尝试播放 <code>intro.mp4</code>；</li>
+<li>如果被浏览器拦截，就退回静音播放；</li>
+<li>在用户点击页面后再解锁音频。</li>
+</ul>
+<h3 id="133">13.3 语音项目账号状态</h3>
+<p>实时语音不只是代码问题，还依赖 Agora 账号、项目状态、ConvoAI 开通状态和 token 鉴权。</p>
+<p>如果出现：</p>
+<pre><code class="language-text">CAN_NOT_GET_GATEWAY_SERVER: no active status
+401 Invalid token
+</code></pre>
+<p>通常说明：</p>
+<ul>
+<li>Agora 账号或项目被阻断；</li>
+<li>App ID / Certificate 不匹配；</li>
+<li>项目没有开通对应能力；</li>
+<li>本地 <code>.env.local</code> 还是旧凭据。</li>
+</ul>
+<p>这是开发 AI 语音项目时最容易误判的地方：页面看起来是“麦克风开了”，但其实浏览器和 Agent 都没有真正加入频道。</p>
+<h3 id="134-3d">13.4 3D 尺度</h3>
+<p>展馆、城市、NPC、地面如果不在同一尺度体系里，就会出现漂浮、穿模、消失、点不到的问题。</p>
+<p>解决办法不是不断调相机，而是回到世界坐标，统一单位、位置和可交互范围。</p>
+<hr />
+<h2 id="14">14. 如果你想复刻一个类似项目</h2>
+<p>可以按这个顺序做：</p>
+<ol>
+<li>
+<p><strong>确定主题</strong>
+   先选一个世界观，例如唐代长安、宋代汴梁、敦煌石窟、未来博物馆。</p>
+</li>
+<li>
+<p><strong>搭建一个能看的 3D 场景</strong>
+   不要一开始就做大地图。先做一个核心区域，保证 30 秒内能看懂。</p>
+</li>
+<li>
+<p><strong>加入一个可控角色</strong>
+   WASD + 简单碰撞 + 一个 NPC，就足够验证“游戏感”。</p>
+</li>
+<li>
+<p><strong>设计 3 个互动点</strong>
+   一个 NPC、一个展馆、一个小游戏。不要一开始做 20 个。</p>
+</li>
+<li>
+<p><strong>接入语音 Agent</strong>
+   先用一个默认 persona 跑通，再扩展多个角色。</p>
+</li>
+<li>
+<p><strong>把内容模块化</strong>
+   品牌数据、NPC 数据、展馆数据都写成配置，不要散落在代码里。</p>
+</li>
+<li>
+<p><strong>部署上线</strong>
+   前端用 GitHub Pages / Vercel，后端用可公网访问的服务器。</p>
+</li>
+<li>
+<p><strong>最后再做包装</strong>
+   BGM、头像、视频、封面图、教程、X 推文、GitHub README 都属于传播层。</p>
+</li>
+</ol>
+<hr />
+<h2 id="15">15. 我们最终做成了什么</h2>
+<p>最终，这个项目不只是一个 3D 页面，也不只是一个语音 demo。</p>
+<p>它更像一个小型样板：</p>
+<ul>
+<li>文旅内容如何游戏化；</li>
+<li>历史知识如何互动化；</li>
+<li>AI 能力如何场景化；</li>
+<li>语音 Agent 如何融入 3D 世界；</li>
+<li>开源项目如何从 demo 变成可分享作品。</li>
+</ul>
+<p>如果要用一句话总结整个开发过程：</p>
+<blockquote>
+<p>我们不是把 AI 放到一个按钮里，而是把 AI 放进了一座城。</p>
+</blockquote>
+<p>这就是《大唐长安 · 智机府》的核心。</p>
+      </article>
+    </main>
+  </div>
+  <button class="back-top" type="button" aria-label="返回顶部">↑</button>
+  
+  
+  <script>
+    (() => {
+      const progress = document.querySelector('.progress');
+      const topBtn = document.querySelector('.back-top');
+      const links = [...document.querySelectorAll('.toc-panel a[href^="#"]')];
+      const headings = links
+        .map(a => document.getElementById(decodeURIComponent(a.hash.slice(1))))
+        .filter(Boolean);
+
+      function onScroll() {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        if (progress) progress.style.width = max > 0 ? `${scrollY / max * 100}%` : '0%';
+        if (topBtn) topBtn.classList.toggle('show', scrollY > innerHeight);
+
+        let current = headings[0];
+        for (const h of headings) {
+          if (h.getBoundingClientRect().top <= 120) current = h;
+        }
+        links.forEach(a => a.classList.toggle('active', current && a.hash === `#${current.id}`));
+      }
+
+      addEventListener('scroll', onScroll, { passive: true });
+      topBtn?.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+      onScroll();
+    })();
+  </script>
+
+</body>
+</html>

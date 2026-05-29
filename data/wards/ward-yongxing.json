@@ -1,0 +1,32 @@
+{
+  "id": "ward-yongxing",
+  "type": "hero",
+  "name": { "zh": "永兴坊", "en": "Yongxing Ward" },
+  "district": "D2",
+  "grid": { "row": 1, "col": 7 },
+  "history": {
+    "summary": "永兴坊在万年县北部, 邻近皇城。坊内多官员宅第, 兼有市井烟火气。今西安市新城区有同名仿唐'永兴坊'美食街, 即源此. 设为本项目美食文化集中展示坊.", 
+    "sources": ["《唐两京城坊考》卷二", "《长安志》卷八"],
+    "famousPeople": ["颜真卿(寓)"]
+  },
+  "build": {
+    "impl": "lib/hero/yongxing.js",
+    "options": {
+      "foodStalls": ["bing", "jiaozi", "tangyuan", "yangroupaomo", "huoshao"],
+      "officialMansions": 4,
+      "wellHouses": 3
+    }
+  },
+  "npcs": [
+    { "id": "vendor-paomo", "name": "羊肉泡馍掌柜", "role": "merchant", "spawn": { "offsetX": -8, "offsetZ": -4 } },
+    { "id": "vendor-jiaozi", "name": "饺子摊主", "role": "civilian", "spawn": { "offsetX": 8, "offsetZ": -4 } },
+    { "id": "yan-zhenqing", "name": "颜真卿", "role": "official", "persona": "data/personas/yan-zhenqing.json", "spawn": { "offsetX": 0, "offsetZ": -10 } }
+  ],
+  "interactions": [
+    { "type": "shop", "id": "shop-paomo", "trigger": { "kind": "near", "offsetX": -8, "offsetZ": -4, "radius": 3 } },
+    { "type": "shop", "id": "shop-jiaozi", "trigger": { "kind": "near", "offsetX": 8, "offsetZ": -4, "radius": 3 } },
+    { "type": "archive", "id": "tang-cuisine", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": 0 } }
+  ],
+  "ambient": { "music": "market-flute", "weather": "any" },
+  "status": "planned"
+}

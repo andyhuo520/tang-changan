@@ -1,0 +1,33 @@
+{
+  "id": "ward-zhaoguo",
+  "type": "hero",
+  "name": { "zh": "昭国坊", "en": "Zhaoguo Ward" },
+  "district": "D7",
+  "grid": { "row": 9, "col": 9 },
+  "history": {
+    "summary": "昭国坊在万年县南部, 白居易长安所居之坊。元和六年(811)白居易居昭国坊, 作《卜居》'游宦京都二十春, 贫中无处可安贫. 长羡蜗牛犹有舍, 不如硕鼠解藏身'。坊内宅院庭园清雅, 是诗人雅集之所。", 
+    "sources": ["白居易《卜居》", "白居易《白氏长庆集》", "《长安志》卷九"],
+    "famousPeople": ["白居易", "元稹(来访)", "刘禹锡(来访)"]
+  },
+  "build": {
+    "impl": "lib/hero/zhaoguo-baijuyi.js",
+    "options": {
+      "courtyard": "siheyuan",
+      "studio": "luotian-tang",
+      "bamboo": 24,
+      "carp pond": true,
+      "bookCabinet": true
+    }
+  },
+  "npcs": [
+    { "id": "bai-juyi", "name": "白居易", "role": "poet", "persona": "data/personas/bai-juyi.json", "spawn": { "offsetX": 0, "offsetZ": 0 }, "games": ["yinjiu", "classics"] },
+    { "id": "yuanzhen", "name": "元稹(来访)", "role": "poet", "persona": "data/personas/yuan-zhen.json", "spawn": { "offsetX": 6, "offsetZ": 0 } },
+    { "id": "servant-housekeeper", "name": "管家", "role": "civilian", "spawn": { "offsetX": -8, "offsetZ": 4 } }
+  ],
+  "interactions": [
+    { "type": "archive", "id": "baijuyi-shengping", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -4 } },
+    { "type": "minigame", "id": "yinjiu-zg", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 0, "radius": 4 } }
+  ],
+  "ambient": { "music": "guqin-quiet", "weather": "any" },
+  "status": "planned"
+}

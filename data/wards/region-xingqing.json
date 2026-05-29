@@ -1,0 +1,37 @@
+{
+  "id": "region-xingqing",
+  "type": "region",
+  "name": { "zh": "兴庆宫", "en": "Xingqing Palace" },
+  "district": "D1",
+  "grid": { "row": 4, "col": 9 },
+  "size": { "w": 100, "d": 100 },
+  "history": {
+    "summary": "兴庆宫原为隆庆坊, 玄宗潜邸; 开元二年(714)立为离宫, 后逐步扩建为正式宫殿。设兴庆殿、龙池、勤政务本楼、花萼相辉楼。开元盛世玄宗主政之地。李白《清平调》: '云想衣裳花想容, 春风拂槛露华浓.'写于此宫沉香亭畔.", 
+    "sources": ["《长安志》卷九", "《开元天宝遗事》"],
+    "famousPeople": ["唐玄宗", "杨贵妃", "李白", "李龟年"]
+  },
+  "build": {
+    "impl": "lib/hero/xingqing-palace.js",
+    "options": {
+      "longchi": true,
+      "qinzhengWubenLou": true,
+      "huaeXianghuiLou": true,
+      "chenxiangTing": true,
+      "peony": 100,
+      "musicStage": true
+    }
+  },
+  "npcs": [
+    { "id": "li-bai-tang", "name": "李白(沉香亭)", "role": "poet", "persona": "data/personas/li-bai.json", "spawn": { "offsetX": 0, "offsetZ": -6 }, "games": ["yinjiu"] },
+    { "id": "li-guinian", "name": "李龟年", "role": "songstress", "persona": "data/personas/li-guinian.json", "spawn": { "offsetX": 6, "offsetZ": -4 } },
+    { "id": "yang-guifei-xq", "name": "杨贵妃", "role": "lady", "spawn": { "offsetX": -6, "offsetZ": -4 } }
+  ],
+  "interactions": [
+    { "type": "mural", "id": "qingpingdiao-text", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -6 } },
+    { "type": "minigame", "id": "yinjiu-xq", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 0, "radius": 5 } },
+    { "type": "archive", "id": "kaiyuan-shengshi", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -10 } }
+  ],
+  "ambient": { "music": "ni-shang-yu-yi", "weather": "festive" },
+  "quests": ["qingpingdiao"],
+  "status": "planned"
+}

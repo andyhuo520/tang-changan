@@ -1,0 +1,38 @@
+{
+  "id": "ward-wuben",
+  "type": "hero",
+  "name": { "zh": "务本坊", "en": "Wuben Ward" },
+  "district": "D2",
+  "grid": { "row": 2, "col": 6 },
+  "history": {
+    "summary": "务本坊在万年县东北部, 邻近皇城。坊内有国子监(隶属太常寺), 下辖国子学、太学、四门学、律学、书学、算学六学。国子监大门内 有孔庙、彝伦堂、敬一亭。开元年间, 国子监生数达八千余人, 此乃当时全国最高学府。", 
+    "sources": ["《唐六典》卷二十一", "《新唐书·选举志》", "《长安志》卷八"],
+    "famousPeople": ["颜师古", "孔颖达", "韩愈(国子博士)"]
+  },
+  "build": {
+    "impl": "lib/hero/wuben-guozijian.js",
+    "options": {
+      "kongmiao": true,
+      "yilunTang": true,
+      "jingyiTing": true,
+      "sixSchools": ["guozi", "taixue", "simen", "lu", "shu", "suan"],
+      "examPlaza": true,
+      "scholarTrees": 18
+    }
+  },
+  "npcs": [
+    { "id": "han-yu", "name": "韩愈(国子博士)", "role": "official", "persona": "data/personas/han-yu.json", "spawn": { "offsetX": 0, "offsetZ": -6 } },
+    { "id": "scholar-master", "name": "国子学博士", "role": "scholar", "spawn": { "offsetX": -8, "offsetZ": -4 } },
+    { "id": "student-1", "name": "国子生·甲", "role": "scholar", "spawn": { "offsetX": -12, "offsetZ": 4 }, "games": ["classics", "tongyi"] },
+    { "id": "student-2", "name": "国子生·乙", "role": "scholar", "spawn": { "offsetX": 12, "offsetZ": 4 }, "games": ["classics"] }
+  ],
+  "interactions": [
+    { "type": "minigame", "id": "classics-wb", "trigger": { "kind": "near", "offsetX": -12, "offsetZ": 4, "radius": 5 } },
+    { "type": "minigame", "id": "tongyi-wb", "trigger": { "kind": "near", "offsetX": -8, "offsetZ": -4, "radius": 5 } },
+    { "type": "archive", "id": "kejugexamine-archive", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": 0 } },
+    { "type": "quest", "id": "keju-pass", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": -6, "radius": 6 } }
+  ],
+  "ambient": { "music": "guqin-solo", "weather": "any" },
+  "quests": ["keju-pass"],
+  "status": "ready"
+}

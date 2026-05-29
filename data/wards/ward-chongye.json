@@ -1,0 +1,33 @@
+{
+  "id": "ward-chongye",
+  "type": "hero",
+  "name": { "zh": "崇业坊", "en": "Chongye Ward" },
+  "district": "D6",
+  "grid": { "row": 9, "col": 4 },
+  "history": {
+    "summary": "崇业坊在长安县南部, 坊内有玄都观, 道教中心之一。观内桃花百树, 春日花开如海。元和十年(815)刘禹锡贬归京, 题《元和十年自朗州至京戏赠看花诸君子》, '玄都观里桃千树, 尽是刘郎去后栽'; 大和二年(828)再题《再游玄都观》, '种桃道士归何处, 前度刘郎今又来'。", 
+    "sources": ["《长安志》卷十", "《新唐书·刘禹锡传》", "《刘宾客文集》"],
+    "famousPeople": ["刘禹锡", "白居易(吟和)", "玄都观道士"]
+  },
+  "build": {
+    "impl": "lib/hero/chongye-xuandu.js",
+    "options": {
+      "peachTrees": 80,
+      "daoistPavilion": true,
+      "rockGarden": true,
+      "calligraphyWall": ["zaiyou-xuandu-guan"]
+    }
+  },
+  "npcs": [
+    { "id": "liu-yu-xi", "name": "刘禹锡", "role": "poet", "persona": "data/personas/liu-yuxi.json", "spawn": { "offsetX": 0, "offsetZ": 0 }, "games": ["yinjiu"] },
+    { "id": "daoist-master", "name": "玄都观道士", "role": "daoist", "persona": "data/personas/daoist-xuandu.json", "spawn": { "offsetX": 6, "offsetZ": -4 } },
+    { "id": "bai-juyi-visit", "name": "白居易(来访)", "role": "poet", "persona": "data/personas/bai-juyi.json", "spawn": { "offsetX": -6, "offsetZ": -4 } }
+  ],
+  "interactions": [
+    { "type": "mural", "id": "zaiyou-poem", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -6 } },
+    { "type": "minigame", "id": "yinjiu-cy", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 0, "radius": 5 } },
+    { "type": "archive", "id": "taoism-archive", "trigger": { "kind": "click", "offsetX": 6, "offsetZ": -4 } }
+  ],
+  "ambient": { "music": "taoist-guqin", "weather": "any" },
+  "status": "wip"
+}

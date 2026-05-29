@@ -1,0 +1,41 @@
+{
+  "id": "region-east-market",
+  "type": "region",
+  "name": { "zh": "东市", "en": "East Market" },
+  "district": "D3",
+  "grid": { "row": 5, "col": 7 },
+  "size": { "w": 120, "d": 120 },
+  "history": {
+    "summary": "东市位于万年县中部, 一里见方, 内分九块, 中央设市楼, 午正开市、申时闭市。共220行, 多内贸: 文房四宝、绫罗、字画、绸缎、漆器。东市以崇仁坊文人辐辏, 形成考生聚集区。",
+    "sources": ["《唐两京城坊考》卷三", "《长安志》卷八"],
+    "famousPeople": ["白居易(《长安初秋望西山》)", "韩愈"]
+  },
+  "build": {
+    "impl": "lib/hero/east-market.js",
+    "options": {
+      "centerTower": "shilou",
+      "rows": 4,
+      "cols": 4,
+      "shopRows": [
+        ["wenfangsibao", "wenfangsibao", "calligraphy", "calligraphy"],
+        ["silk", "silk", "lacquer", "lacquer"],
+        ["paint-mount", "paint-mount", "scroll", "scroll"],
+        ["tea", "tea", "rice-wine", "noodle"]
+      ]
+    }
+  },
+  "npcs": [
+    { "id": "shopkeeper-pen", "name": "笔行掌柜", "role": "merchant", "spawn": { "offsetX": -30, "offsetZ": -30 } },
+    { "id": "shopkeeper-silk", "name": "绫罗掌柜", "role": "merchant", "spawn": { "offsetX": 30, "offsetZ": -30 } },
+    { "id": "scholar-juzi-1", "name": "举子·王生", "role": "scholar", "persona": "data/personas/scholar-juzi.json", "spawn": { "offsetX": 0, "offsetZ": -45 } },
+    { "id": "scholar-juzi-2", "name": "举子·李生", "role": "scholar", "spawn": { "offsetX": -8, "offsetZ": -45 } },
+    { "id": "lady-shopper", "name": "贵眷采买", "role": "lady", "spawn": { "offsetX": 15, "offsetZ": 0 } }
+  ],
+  "interactions": [
+    { "type": "shop", "id": "shop-wenfang", "trigger": { "kind": "near", "offsetX": -30, "offsetZ": -30, "radius": 5 } },
+    { "type": "shop", "id": "shop-silk-east", "trigger": { "kind": "near", "offsetX": 30, "offsetZ": -30, "radius": 5 } },
+    { "type": "archive", "id": "shilou-archive", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 0, "radius": 6 } }
+  ],
+  "ambient": { "music": "market-bustle", "weather": "any" },
+  "status": "planned"
+}

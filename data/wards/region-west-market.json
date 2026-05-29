@@ -1,0 +1,44 @@
+{
+  "id": "region-west-market",
+  "type": "region",
+  "name": { "zh": "西市", "en": "West Market" },
+  "district": "D4",
+  "grid": { "row": 5, "col": 3 },
+  "size": { "w": 120, "d": 120 },
+  "history": {
+    "summary": "西市位于长安县中部, 国际贸易中心。粟特、波斯、大食、突厥商人云集; 经营宝石、香料、葡萄酒、毛织物。设波斯邸专供粟特商人寄存货品。胡姬酒肆、景教寺、祆祠环绕。", 
+    "sources": ["《唐两京城坊考》卷三", "《长安志》", "《入唐求法巡礼行记》"],
+    "famousPeople": ["李白《少年行》", "粟特商人安伽", "波斯商人苏谅"]
+  },
+  "build": {
+    "impl": "lib/hero/west-market.js",
+    "options": {
+      "centerTower": "shilou-foreign",
+      "rows": 4,
+      "cols": 4,
+      "shopRows": [
+        ["spice", "spice", "gem", "gem"],
+        ["wine-grape", "wine-grape", "carpet", "carpet"],
+        ["camelmount", "camelmount", "fur", "fur"],
+        ["dye-house", "dye-house", "perfume", "huji-pub"]
+      ],
+      "outerTrim": "persian-arches"
+    }
+  },
+  "npcs": [
+    { "id": "sogdian-merchant", "name": "粟特商人·安伽", "role": "foreigner", "persona": "data/personas/sogdian.json", "spawn": { "offsetX": -25, "offsetZ": 0 } },
+    { "id": "persian-wine", "name": "波斯酒商", "role": "foreigner", "persona": "data/personas/persian-wine.json", "spawn": { "offsetX": 25, "offsetZ": 15 } },
+    { "id": "huji-dancer", "name": "胡姬·阿莎", "role": "songstress", "persona": "data/personas/huji.json", "spawn": { "offsetX": 22, "offsetZ": 28 } },
+    { "id": "tujue-fur", "name": "突厥皮货商", "role": "foreigner", "spawn": { "offsetX": -10, "offsetZ": 30 } },
+    { "id": "li-bai-tipsy", "name": "李白(微醺)", "role": "poet", "persona": "data/personas/li-bai.json", "spawn": { "offsetX": 25, "offsetZ": 32 }, "games": ["yinjiu"] }
+  ],
+  "interactions": [
+    { "type": "shop", "id": "shop-grapewine", "trigger": { "kind": "near", "offsetX": 25, "offsetZ": 15, "radius": 5 } },
+    { "type": "shop", "id": "shop-spice", "trigger": { "kind": "near", "offsetX": -25, "offsetZ": -30, "radius": 5 } },
+    { "type": "minigame", "id": "huji-dance", "trigger": { "kind": "near", "offsetX": 22, "offsetZ": 28, "radius": 4 } },
+    { "type": "archive", "id": "silkroad-archive", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 0, "radius": 6 } }
+  ],
+  "ambient": { "music": "huji-pipa", "weather": "any", "fogTint": "#dcc185" },
+  "quests": ["silkroad-caravan"],
+  "status": "planned"
+}

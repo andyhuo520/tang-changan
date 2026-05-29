@@ -1,0 +1,34 @@
+{
+  "id": "ward-pingkang",
+  "type": "hero",
+  "name": { "zh": "平康坊", "en": "Pingkang Ward" },
+  "district": "D5",
+  "grid": { "row": 3, "col": 7 },
+  "history": {
+    "summary": "唐代教坊妓馆云集之地, 唐人称'北里'。坊内分北曲、中曲、南曲三处; 北曲多高门, 文人雅士夜聚于此, 题诗、赋词、佐酒、击鼓传花。", 
+    "sources": ["《北里志》唐·孙棨", "《长安志》卷八", "《唐摭言》"],
+    "famousPeople": ["白居易", "杜牧", "李群玉", "温庭筠", "薛涛(寓)"]
+  },
+  "build": {
+    "impl": "lib/hero/pingkang.js",
+    "options": {
+      "subQu": ["beiqu", "zhongqu", "nanqu"],
+      "lanterns": 48,
+      "night": true,
+      "stage": true,
+      "investigateRiddle": true
+    }
+  },
+  "npcs": [
+    { "id": "ms-xue-tao", "name": "薛涛(寓)", "role": "songstress", "persona": "data/personas/xue-tao.json", "spawn": { "offsetX": 0, "offsetZ": -10 }, "games": ["yinjiu", "doucao"] },
+    { "id": "ms-songstress-1", "name": "歌伎·明月", "role": "songstress", "spawn": { "offsetX": -12, "offsetZ": 0 }, "games": ["yinjiu", "caimei"] },
+    { "id": "ms-songstress-2", "name": "歌伎·秋红", "role": "songstress", "spawn": { "offsetX": 12, "offsetZ": 0 }, "games": ["dice", "finger"] },
+    { "id": "poet-du-mu", "name": "杜牧", "role": "poet", "persona": "data/personas/du-mu.json", "spawn": { "offsetX": 4, "offsetZ": 6 }, "games": ["yinjiu"] }
+  ],
+  "interactions": [
+    { "type": "minigame", "id": "yinjiu-pk", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 0, "radius": 5 } },
+    { "type": "archive", "id": "beili-archive", "trigger": { "kind": "click", "offsetX": -18, "offsetZ": -12 } }
+  ],
+  "ambient": { "lights": ["lantern-orange"], "music": "night-pipa", "weather": "always-night" },
+  "status": "ready"
+}

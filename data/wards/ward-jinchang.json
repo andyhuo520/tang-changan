@@ -1,0 +1,37 @@
+{
+  "id": "ward-jinchang",
+  "type": "hero",
+  "name": { "zh": "进昌坊(晋昌坊)", "en": "Jinchang Ward" },
+  "district": "D6",
+  "grid": { "row": 10, "col": 7 },
+  "history": {
+    "summary": "进昌坊位于万年县东南。坊内有大慈恩寺, 玄奘奉敕翻经其内, 永徽三年(652)依玄奘奏立大雁塔(初五层, 后增为七层方形砖塔), 用于贮藏从印度带回的经像。新进士及第后必在大雁塔下题名, 谓之'雁塔题名'。", 
+    "sources": ["《大慈恩寺三藏法师传》", "《唐两京城坊考》卷三", "《长安志》卷九"],
+    "famousPeople": ["玄奘", "窥基", "白居易(题诗)", "李商隐(《无题》)"]
+  },
+  "build": {
+    "impl": "lib/hero/jinchang.js",
+    "options": {
+      "pagoda": { "levels": 7, "shape": "square", "material": "brick" },
+      "ciensiHall": true,
+      "xinkeyEastNiche": true,
+      "yantaWall": true,
+      "tortoiseSteles": 12
+    }
+  },
+  "npcs": [
+    { "id": "xuan-zang", "name": "玄奘三藏", "role": "monk", "persona": "data/personas/xuanzang.json", "spawn": { "offsetX": 0, "offsetZ": 0 } },
+    { "id": "kuiji", "name": "窥基", "role": "monk", "spawn": { "offsetX": 8, "offsetZ": 4 } },
+    { "id": "new-jinshi-1", "name": "新进士·甲", "role": "scholar", "spawn": { "offsetX": -10, "offsetZ": -8 }, "games": ["yanta"] },
+    { "id": "new-jinshi-2", "name": "新进士·乙", "role": "scholar", "spawn": { "offsetX": -12, "offsetZ": -10 }, "games": ["yanta"] }
+  ],
+  "interactions": [
+    { "type": "minigame", "id": "yanta-jc", "trigger": { "kind": "near", "offsetX": -10, "offsetZ": -8, "radius": 5 } },
+    { "type": "mural", "id": "xuanzang-journey", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -8 } },
+    { "type": "archive", "id": "dayanta-archive", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -2 } },
+    { "type": "quest", "id": "xuanzang-west", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 0, "radius": 6 } }
+  ],
+  "ambient": { "music": "buddhist-chant", "weather": "any" },
+  "quests": ["xuanzang-west", "yanta-tipei"],
+  "status": "wip"
+}

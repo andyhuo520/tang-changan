@@ -1,0 +1,33 @@
+{
+  "id": "ward-chongren",
+  "type": "hero",
+  "name": { "zh": "崇仁坊", "en": "Chongren Ward" },
+  "district": "D3",
+  "grid": { "row": 2, "col": 7 },
+  "history": {
+    "summary": "崇仁坊在万年县东北, 紧邻东市, 又靠皇城景风门, 故举子、文人、应试学子云集; '一街辐辏, 遂倾两市, 昼夜喧呼, 灯火不绝'(《长安志》引). 与东市、务本坊国子监连成文人三角.", 
+    "sources": ["《唐两京城坊考》卷三", "《长安志》卷八"],
+    "famousPeople": ["张籍", "孟郊(应试时寓)"]
+  },
+  "build": {
+    "impl": "lib/hero/chongren.js",
+    "options": {
+      "inns": 6,
+      "scholarsHostels": 4,
+      "wineHouses": 4,
+      "bookshops": 3
+    }
+  },
+  "npcs": [
+    { "id": "scholar-juzi-3", "name": "举子·张生", "role": "scholar", "spawn": { "offsetX": -8, "offsetZ": 0 }, "games": ["classics", "tongyi"] },
+    { "id": "scholar-juzi-4", "name": "举子·刘生", "role": "scholar", "spawn": { "offsetX": 8, "offsetZ": 0 }, "games": ["classics", "dice"] },
+    { "id": "innkeeper", "name": "客栈掌柜", "role": "merchant", "spawn": { "offsetX": 0, "offsetZ": 6 } }
+  ],
+  "interactions": [
+    { "type": "shop", "id": "shop-bookstore", "trigger": { "kind": "near", "offsetX": -10, "offsetZ": -6, "radius": 4 } },
+    { "type": "minigame", "id": "classics-cr", "trigger": { "kind": "near", "offsetX": -8, "offsetZ": 0, "radius": 4 } },
+    { "type": "quest", "id": "keju-prep", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 0, "radius": 6 } }
+  ],
+  "ambient": { "music": "night-quiet-flute", "weather": "any" },
+  "status": "ready"
+}

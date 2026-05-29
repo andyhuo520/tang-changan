@@ -1,0 +1,98 @@
+{
+  "id": "region-daming",
+  "type": "region",
+  "name": { "zh": "大明宫", "en": "Daming Palace" },
+  "district": "D1",
+  "grid": { "row": -1, "col": 7 },
+  "size": { "w": 180, "d": 240 },
+  "elevation": 3,
+  "history": {
+    "summary": "唐高宗龙朔二年(662)建于龙首原, 唐代正衙。含元殿大朝、麟德殿宴飨、紫宸殿内朝、太液池蓬莱仙岛、玄武门北禁苑。开元盛世主舞台。",
+    "sources": ["《唐两京城坊考》卷一", "《长安志》卷六", "《大明宫遗址考古发掘报告》中国社会科学院考古研究所"],
+    "famousPeople": ["唐太宗", "武则天", "唐玄宗", "杨贵妃", "李白", "万国使节"]
+  },
+  "build": {
+    "impl": "lib/hero/daming-palace.js",
+    "options": {
+      "halls": ["hanyuan", "linde", "zichen"],
+      "longweidao": true,
+      "taiYePool": { "withIsland": true, "boats": 3 },
+      "guardEditions": "ceremonial"
+    }
+  },
+  "npcs": [
+    {
+      "id": "emperor-xuanzong",
+      "name": "唐玄宗",
+      "role": "emperor",
+      "persona": "data/personas/xuanzong.json",
+      "spawn": { "offsetX": 0, "offsetZ": -90 },
+      "wardrobe": { "robe": "imperial-yellow-dragon" }
+    },
+    {
+      "id": "yang-guifei",
+      "name": "杨贵妃",
+      "role": "lady",
+      "persona": "data/personas/yang-guifei.json",
+      "spawn": { "offsetX": -6, "offsetZ": -90 }
+    },
+    {
+      "id": "li-bai-court",
+      "name": "李白(供奉翰林)",
+      "role": "poet",
+      "persona": "data/personas/li-bai.json",
+      "spawn": { "offsetX": 8, "offsetZ": -60 },
+      "games": ["yinjiu"]
+    },
+    {
+      "id": "tubo-envoy",
+      "name": "吐蕃使节",
+      "role": "foreigner",
+      "persona": "data/personas/tubo-envoy.json",
+      "spawn": { "offsetX": 18, "offsetZ": -40 }
+    },
+    {
+      "id": "japan-envoy",
+      "name": "遣唐使·阿倍仲麻吕",
+      "role": "foreigner",
+      "persona": "data/personas/abe-no-nakamaro.json",
+      "spawn": { "offsetX": -18, "offsetZ": -40 }
+    }
+  ],
+  "interactions": [
+    {
+      "type": "archive",
+      "id": "hanyuan-archive",
+      "trigger": { "kind": "near", "offsetX": 0, "offsetZ": -50, "radius": 8 },
+      "payload": {
+        "title": "含元殿与大朝礼",
+        "content": "《唐六典》载: 元日大朝, 皇帝御含元殿..."
+      }
+    },
+    {
+      "type": "quest",
+      "id": "qingpingdiao",
+      "trigger": { "kind": "near", "offsetX": 0, "offsetZ": -70, "radius": 6 },
+      "payload": {
+        "title": "李白献清平调",
+        "summary": "玄宗、贵妃赏牡丹, 召李白入麟德殿赋诗"
+      }
+    },
+    {
+      "type": "ride",
+      "id": "taiye-boat",
+      "trigger": { "kind": "near", "offsetX": 0, "offsetZ": -110, "radius": 10 },
+      "payload": { "boat": "phoenix", "duration": 90 }
+    }
+  ],
+  "ambient": {
+    "lights": ["imperial-bright", "evening-warm"],
+    "music": "court-orchestra",
+    "weather": "always-day"
+  },
+  "tour": {
+    "introVoice": "voice-tour-daming",
+    "duration": 240
+  },
+  "status": "planned"
+}

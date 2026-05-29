@@ -1,0 +1,32 @@
+{
+  "id": "ward-xinchang",
+  "type": "hero",
+  "name": { "zh": "新昌坊", "en": "Xinchang Ward" },
+  "district": "D6",
+  "grid": { "row": 10, "col": 9 },
+  "history": {
+    "summary": "新昌坊在万年县东南角, 坊内有青龙寺(原名灵感寺), 为唐密法宗道场。空海、最澄、惠果三师事迹于此。寺据乐游原, 居高临下览长安。", 
+    "sources": ["《长安志》卷九", "《入唐求法巡礼行记》圆仁", "《大日经》空海传"],
+    "famousPeople": ["惠果", "空海", "圆仁(留学唐九年)"]
+  },
+  "build": {
+    "impl": "lib/hero/xinchang.js",
+    "options": {
+      "qinglongHall": true,
+      "mandalaPlaza": true,
+      "leyouyuanView": true,
+      "japanLanterns": 6
+    }
+  },
+  "npcs": [
+    { "id": "huiguo", "name": "惠果阿阇梨", "role": "monk", "persona": "data/personas/huiguo.json", "spawn": { "offsetX": 0, "offsetZ": -4 } },
+    { "id": "kukai", "name": "空海(留学僧)", "role": "monk", "persona": "data/personas/kukai.json", "spawn": { "offsetX": 6, "offsetZ": -2 } },
+    { "id": "ennin", "name": "圆仁", "role": "monk", "persona": "data/personas/ennin.json", "spawn": { "offsetX": -6, "offsetZ": -2 } }
+  ],
+  "interactions": [
+    { "type": "archive", "id": "tangmi-archive", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -2 } },
+    { "type": "mural", "id": "mandala", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": 4 } }
+  ],
+  "ambient": { "music": "tangmi-chant", "weather": "any" },
+  "status": "planned"
+}

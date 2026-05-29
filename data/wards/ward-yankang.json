@@ -1,0 +1,33 @@
+{
+  "id": "ward-yankang",
+  "type": "hero",
+  "name": { "zh": "延康坊", "en": "Yankang Ward" },
+  "district": "D6",
+  "grid": { "row": 4, "col": 3 },
+  "history": {
+    "summary": "延康坊位于长安县中部偏北, 坊内有西明寺(长安四大寺之一)。寺始建于隋, 唐显庆三年(658)高宗以皇太子病愈造寺, 为玄奘晚年驻锡之地, 设第一藏经楼。当时印度、新罗、日本留学僧云集。", 
+    "sources": ["《长安志》卷十", "《大慈恩寺三藏法师传》", "《大唐故三藏玄奘法师行状》"],
+    "famousPeople": ["玄奘", "义净", "新罗·圆测", "道宣(律宗祖师, 寓寺研律)"]
+  },
+  "build": {
+    "impl": "lib/hero/yankang-ximingsi.js",
+    "options": {
+      "mainHall": "ximing-main",
+      "scriptureTower": true,
+      "libraryHall": "first-canon",
+      "monkQuarters": 30,
+      "stoneSteles": 8
+    }
+  },
+  "npcs": [
+    { "id": "yi-jing", "name": "义净三藏(由海路求法归唐)", "role": "monk", "persona": "data/personas/yijing.json", "spawn": { "offsetX": 0, "offsetZ": -6 } },
+    { "id": "yuance", "name": "圆测(新罗)", "role": "monk", "spawn": { "offsetX": 8, "offsetZ": -4 } },
+    { "id": "daoxuan", "name": "道宣律师", "role": "monk", "spawn": { "offsetX": -8, "offsetZ": -4 } }
+  ],
+  "interactions": [
+    { "type": "archive", "id": "ximingsi-archive", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": 0 } },
+    { "type": "mural", "id": "yijing-haijing", "trigger": { "kind": "click", "offsetX": -8, "offsetZ": 4 } }
+  ],
+  "ambient": { "music": "sutra-chant" },
+  "status": "planned"
+}

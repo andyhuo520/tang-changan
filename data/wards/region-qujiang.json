@@ -1,0 +1,41 @@
+{
+  "id": "region-qujiang",
+  "type": "region",
+  "name": { "zh": "曲江池·芙蓉园", "en": "Qujiang & Furong Garden" },
+  "district": "D8",
+  "grid": { "row": 11, "col": 9 },
+  "size": { "w": 160, "d": 180 },
+  "history": {
+    "summary": "曲江池在城东南角, 隋代为'芙蓉池', 唐改'曲江'。皇家禁苑, 平民可游赏。上巳(3.3)、中和(2.1)、重阳(9.9)三大节令, 万人空巷往游。新科进士及第后, 例于曲江宴, 赐宴杏园, 谓之'探花'。", 
+    "sources": ["《唐两京城坊考》卷三", "《长安志》卷九", "《开元天宝遗事》"],
+    "famousPeople": ["杜甫《丽人行》", "李商隐《登乐游原》", "白居易《曲江》"]
+  },
+  "build": {
+    "impl": "lib/hero/qujiang-furongyuan.js",
+    "options": {
+      "lakeArea": "extensive",
+      "xingyuan": true,
+      "furongGarden": { "imperial": true, "hibiscus": 60 },
+      "ziyunlou": true,
+      "leyouyuanRise": true,
+      "boats": 8,
+      "willow": 40,
+      "peach": 30
+    }
+  },
+  "npcs": [
+    { "id": "new-jinshi-feast", "name": "新进士群(曲江宴)", "role": "scholar", "spawn": { "offsetX": 0, "offsetZ": -20 } },
+    { "id": "du-fu", "name": "杜甫", "role": "poet", "persona": "data/personas/du-fu.json", "spawn": { "offsetX": -20, "offsetZ": 0 } },
+    { "id": "imperial-ladies", "name": "皇室宫人(三月三)", "role": "lady", "spawn": { "offsetX": 30, "offsetZ": 30 } },
+    { "id": "boatman", "name": "画舫舟子", "role": "civilian", "spawn": { "offsetX": 0, "offsetZ": 20 } }
+  ],
+  "interactions": [
+    { "type": "minigame", "id": "qujiang-liushang", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 0, "radius": 8 } },
+    { "type": "ride", "id": "qujiang-boat", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": 20, "radius": 6 } },
+    { "type": "archive", "id": "qujiang-festivals", "trigger": { "kind": "click", "offsetX": 20, "offsetZ": -20 } },
+    { "type": "quest", "id": "jinshi-feast", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": -20, "radius": 8 } }
+  ],
+  "ambient": { "lights": ["dawn-soft", "evening-warm"], "music": "guqin-soft", "weather": "festive" },
+  "quests": ["jinshi-feast"],
+  "status": "wip"
+}

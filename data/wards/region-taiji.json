@@ -1,0 +1,32 @@
+{
+  "id": "region-taiji",
+  "type": "region",
+  "name": { "zh": "太极宫", "en": "Taiji Palace" },
+  "district": "D1",
+  "grid": { "row": 0, "col": 5 },
+  "size": { "w": 120, "d": 120 },
+  "history": {
+    "summary": "太极宫即隋大兴宫, 唐初皇宫(高祖、太宗)。主殿太极殿大朝, 两仪殿便殿, 甘露殿燕居。武德九年(626)玄武门之变即发生于此宫北玄武门外。", 
+    "sources": ["《长安志》卷六", "《新唐书·地理志》", "《唐两京城坊考》卷一"],
+    "famousPeople": ["李渊", "李世民", "魏徵", "房玄龄"]
+  },
+  "build": {
+    "impl": "lib/hero/taiji-palace.js",
+    "options": {
+      "halls": ["taiji-main", "liangyi", "ganlu"],
+      "xuanwumen": true,
+      "guardEditions": "early-tang"
+    }
+  },
+  "npcs": [
+    { "id": "li-shimin", "name": "唐太宗", "role": "emperor", "persona": "data/personas/li-shimin.json", "spawn": { "offsetX": 0, "offsetZ": -10 } },
+    { "id": "wei-zheng", "name": "魏徵", "role": "official", "persona": "data/personas/wei-zheng.json", "spawn": { "offsetX": -8, "offsetZ": -8 } },
+    { "id": "fang-xuanling", "name": "房玄龄", "role": "official", "spawn": { "offsetX": 8, "offsetZ": -8 } }
+  ],
+  "interactions": [
+    { "type": "archive", "id": "zhenguan-archive", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -10 } },
+    { "type": "quest", "id": "zhenguan-zhengyao", "trigger": { "kind": "near", "offsetX": 0, "offsetZ": -10, "radius": 6 } }
+  ],
+  "ambient": { "music": "court-formal", "weather": "any" },
+  "status": "planned"
+}

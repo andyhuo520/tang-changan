@@ -1,0 +1,31 @@
+{
+  "id": "ward-xuanyang",
+  "type": "hero",
+  "name": { "zh": "宣阳坊", "en": "Xuanyang Ward" },
+  "district": "D3",
+  "grid": { "row": 2, "col": 8 },
+  "history": {
+    "summary": "宣阳坊在万年县东北, 唐代豪族集中之地。坊内有太子少保、左仆射、御史中丞等高官宅第; 又有姚崇宅、宋璟宅等开元盛世名相居处。是体现唐代士大夫宅院形制的典型坊.", 
+    "sources": ["《长安志》卷八", "《唐两京城坊考》卷三"],
+    "famousPeople": ["姚崇", "宋璟", "李林甫"]
+  },
+  "build": {
+    "impl": "lib/hero/xuanyang-mansions.js",
+    "options": {
+      "mansions": ["yao-chong", "song-jing", "general-anonymous"],
+      "courtyardStyle": "siheyuan-large",
+      "gardenPond": true,
+      "wallScreens": 4
+    }
+  },
+  "npcs": [
+    { "id": "yao-chong", "name": "姚崇", "role": "official", "persona": "data/personas/yao-chong.json", "spawn": { "offsetX": -10, "offsetZ": -6 } },
+    { "id": "song-jing", "name": "宋璟", "role": "official", "persona": "data/personas/song-jing.json", "spawn": { "offsetX": 10, "offsetZ": -6 } },
+    { "id": "young-lady", "name": "千金小姐", "role": "lady", "spawn": { "offsetX": 0, "offsetZ": 6 }, "games": ["doucao", "caimei"] }
+  ],
+  "interactions": [
+    { "type": "archive", "id": "kaiyuan-ministers", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -6 } }
+  ],
+  "ambient": { "music": "guqin-noble", "weather": "any" },
+  "status": "planned"
+}

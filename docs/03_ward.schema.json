@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://changan.local/schemas/ward.schema.json",
+  "title": "Tang Chang'an Ward Manifest",
+  "description": "Manifest descriptor for a region (ward / palace / market / gate / background) in the Chang'an digital twin.",
+  "type": "object",
+  "required": ["id", "type", "name", "grid"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^(ward|region|bg)-[a-z0-9-]+$",
+      "description": "Unique ID. ward-<pinyin> | region-<pinyin> | bg-<dir> | ward-r<row>c<col> (procedural)"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["hero", "proc", "region", "background"],
+      "description": "hero=L0 full custom; proc=L1 generative; region=L0 special (palace/market/gate/garden); background=L2 silhouette"
+    },
+    "name": {
+      "type": "object",
+      "required": ["zh"],
+      "properties": {
+        "zh": { "type": "string" },
+        "en": { "type": "string" },
+        "ja": { "type": "string" }
+      }
+    },
+    "district": {
+      "type": "string",
+      "enum": ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "OUT"],
+      "description": "D1=宫城/皇城 D2=京畿官署 D3=东市商贸 D4=西市丝路 D5=平康文娱 D6=寺院文化 D7=文人雅士 D8=御园风景 OUT=城外"
+    },
+    "grid": {
+      "type": "object",
+      "required": ["row", "col"],
+      "properties": {
+        "row": { "type": "integer", "minimum": -2, "maximum": 14 },
+        "col": { "type": "integer", "minimum": -2, "maximum": 12 }
+      }
+    },
+    "size": {
+      "type": "object",
+      "description": "Override default 60x60 ward size if needed",
+      "properties": {
+        "w": { "type": "number", "minimum": 10 },
+        "d": { "type": "number", "minimum": 10 }
+      }
+    },
+    "elevation": {
+      "type": "number",
+      "default": 0,
+      "description": "Ground elevation offset (e.g. 大明宫 on 龙首原 ≈ +3)"
+    },
+    "history": {
+      "type": "object",
+      "description": "Historical references shown in archive panel",
+      "properties": {
+        "summary": { "type": "string" },
+        "sources": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "原典书名"
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        },
+        "famousPeople": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "description": "How to construct the geometry",
+      "properties": {
+        "impl": {
+          "type": "string",
+          "description": "Path to ES module exporting build(scene, opts) (for hero/region types)"
+        },
+        "template": {
+          "type": "string",
+          "enum": ["residential", "mixed", "temple-small", "office", "market-fringe", "garden"],
+          "description": "Procedural template (for proc type)"
+        },
+        "landmark": {
+          "type": "string",
+          "description": "Optional landmark id for proc wards"
+        },
+        "density": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "default": "medium"
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Free-form options forwarded to build impl"
+        }
+      }
+    },
+    "npcs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": [
+              "emperor", "official", "poet", "monk", "daoist",
+              "songstress", "scholar", "merchant", "foreigner",
+              "soldier", "lady", "civilian", "guide", "child"
+            ]
+          },
+          "persona": {
+            "type": "string",
+            "description": "Path to persona JSON for AI prompt"
+          },
+          "spawn": {
+            "type": "object",
+            "properties": {
+              "offsetX": { "type": "number" },
+              "offsetZ": { "type": "number" },
+              "y": { "type": "number", "default": 0 }
+            }
+          },
+          "games": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "rps", "riddle", "yinjiu", "dice", "finger",
+                "doucao", "caimei", "cuju", "yanta", "qujiang",
+                "archery", "polo", "tongyi", "classics", "wenzhen", "guanxiang"
+              ]
+            }
+          },
+          "wardrobe": {
+            "type": "object",
+            "description": "3D model overrides (color, accessory)"
+          }
+        }
+      }
+    },
+    "interactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["minigame", "archive", "quest", "shop", "mural", "ride"]
+          },
+          "id": { "type": "string" },
+          "trigger": {
+            "type": "object",
+            "properties": {
+              "kind": { "type": "string", "enum": ["near", "click", "auto"] },
+              "offsetX": { "type": "number" },
+              "offsetZ": { "type": "number" },
+              "radius": { "type": "number", "default": 4 }
+            }
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "ambient": {
+      "type": "object",
+      "properties": {
+        "lights": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Named light setups e.g. lantern-orange | moon-cold | candle"
+        },
+        "music": { "type": "string" },
+        "weather": {
+          "type": "string",
+          "enum": ["any", "always-night", "always-day", "always-dawn", "festive"]
+        },
+        "fogTint": { "type": "string" }
+      }
+    },
+    "quests": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Quest IDs that can start here"
+    },
+    "tour": {
+      "type": "object",
+      "description": "Tour mode entry",
+      "properties": {
+        "introVoice": { "type": "string" },
+        "duration": { "type": "number" },
+        "cameraPath": { "type": "string" }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["planned", "wip", "ready", "deprecated"],
+      "default": "planned"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "ward-xiuzhen",
+  "type": "hero",
+  "name": { "zh": "修真坊", "en": "Xiuzhen Ward" },
+  "district": "D2",
+  "grid": { "row": 1, "col": 3 },
+  "history": {
+    "summary": "修真坊在长安县东北, 邻近皇城承天门。坊内有太医署、尚药局, 为唐代官方医药行政与教育机构。设医、针、按摩、咒禁四科, 培养唐代医官。孙思邈晚年曾入此署进药.", 
+    "sources": ["《唐六典》卷十四", "《新唐书·百官志》", "《长安志》卷十"],
+    "famousPeople": ["孙思邈", "韦慈藏", "张文仲"]
+  },
+  "build": {
+    "impl": "lib/hero/xiuzhen-taiyishu.js",
+    "options": {
+      "taiyiHall": true,
+      "herbStore": true,
+      "acupunctureRoom": true,
+      "fourSchools": ["yi", "zhen", "anmo", "zhoujin"],
+      "herbGarden": 30
+    }
+  },
+  "npcs": [
+    { "id": "sun-simiao", "name": "孙思邈", "role": "monk", "persona": "data/personas/sun-simiao.json", "spawn": { "offsetX": 0, "offsetZ": -4 } },
+    { "id": "physician-1", "name": "太医博士", "role": "official", "spawn": { "offsetX": -6, "offsetZ": 0 } },
+    { "id": "patient-1", "name": "求诊百姓", "role": "civilian", "spawn": { "offsetX": -10, "offsetZ": 4 } }
+  ],
+  "interactions": [
+    { "type": "minigame", "id": "wenzhen-xz", "trigger": { "kind": "near", "offsetX": -6, "offsetZ": 0, "radius": 4 } },
+    { "type": "archive", "id": "tang-medicine", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": 0 } }
+  ],
+  "ambient": { "music": "guqin-medical", "weather": "any" },
+  "status": "planned"
+}

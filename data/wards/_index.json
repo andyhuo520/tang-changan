@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "description": "Tang Chang'an Ward Index - hero zones (L0) and procedural slots (L1)",
+  "schema": "../../docs/03_ward.schema.json",
+  "stats": {
+    "totalHero": 25,
+    "totalProc": 96,
+    "totalGates": 12,
+    "totalWalls": 4
+  },
+  "regions": [
+    { "id": "region-daming", "type": "region", "file": "region-daming.json" },
+    { "id": "region-taiji", "type": "region", "file": "region-taiji.json" },
+    { "id": "region-huangcheng", "type": "region", "file": "region-huangcheng.json" },
+    { "id": "region-east-market", "type": "region", "file": "region-east-market.json" },
+    { "id": "region-west-market", "type": "region", "file": "region-west-market.json" },
+    { "id": "region-qujiang", "type": "region", "file": "region-qujiang.json" },
+    { "id": "region-xingqing", "type": "region", "file": "region-xingqing.json" },
+
+    { "id": "ward-pingkang", "type": "hero", "file": "ward-pingkang.json" },
+    { "id": "ward-chongren", "type": "hero", "file": "ward-chongren.json" },
+    { "id": "ward-jinchang", "type": "hero", "file": "ward-jinchang.json" },
+    { "id": "ward-xinchang", "type": "hero", "file": "ward-xinchang.json" },
+    { "id": "ward-yankang", "type": "hero", "file": "ward-yankang.json" },
+    { "id": "ward-chongye", "type": "hero", "file": "ward-chongye.json" },
+    { "id": "ward-yongxing", "type": "hero", "file": "ward-yongxing.json" },
+    { "id": "ward-xiuzhen", "type": "hero", "file": "ward-xiuzhen.json" },
+    { "id": "ward-wuben", "type": "hero", "file": "ward-wuben.json" },
+    { "id": "ward-huaiyuan", "type": "hero", "file": "ward-huaiyuan.json" },
+    { "id": "ward-xuanyang", "type": "hero", "file": "ward-xuanyang.json" },
+    { "id": "ward-zhaoguo", "type": "hero", "file": "ward-zhaoguo.json" }
+  ]
+}

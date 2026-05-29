@@ -1,0 +1,36 @@
+{
+  "id": "region-huangcheng",
+  "type": "region",
+  "name": { "zh": "皇城官署区", "en": "Imperial City (Government Quarter)" },
+  "district": "D2",
+  "grid": { "row": 0, "col": 5 },
+  "size": { "w": 240, "d": 60 },
+  "history": {
+    "summary": "皇城在外郭城北部, 宫城南。设三省(中书、门下、尚书)、九寺(太常、光禄、卫尉、宗正、太仆、大理、鸿胪、司农、太府)、五监(国子、少府、将作、军器、都水)及御史台、太医署、司天监等中央行政机构。东西门承天门、广运门, 南门朱雀门。", 
+    "sources": ["《唐六典》", "《长安志》卷七", "《唐两京城坊考》卷一"],
+    "famousPeople": ["三省六部官员"]
+  },
+  "build": {
+    "impl": "lib/hero/huangcheng-officespark.js",
+    "options": {
+      "ministries": ["zhongshu", "menxia", "shangshu"],
+      "courts": 9,
+      "directorates": 5,
+      "ceremonyCourt": true,
+      "honglu": true,
+      "taishi": true,
+      "sitian": true
+    }
+  },
+  "npcs": [
+    { "id": "honglu-translator", "name": "鸿胪寺通译", "role": "official", "spawn": { "offsetX": -40, "offsetZ": 0 } },
+    { "id": "sitian-astronomer", "name": "司天监监正", "role": "official", "persona": "data/personas/sitian.json", "spawn": { "offsetX": 40, "offsetZ": 0 }, "games": ["guanxiang"] },
+    { "id": "taiyi-physician", "name": "太医署官", "role": "official", "spawn": { "offsetX": 0, "offsetZ": 0 } }
+  ],
+  "interactions": [
+    { "type": "archive", "id": "tang-government", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": 0 } },
+    { "type": "minigame", "id": "guanxiang-hc", "trigger": { "kind": "near", "offsetX": 40, "offsetZ": 0, "radius": 5 } }
+  ],
+  "ambient": { "music": "court-quiet", "weather": "any" },
+  "status": "planned"
+}

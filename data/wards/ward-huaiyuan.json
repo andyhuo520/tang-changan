@@ -1,0 +1,32 @@
+{
+  "id": "ward-huaiyuan",
+  "type": "hero",
+  "name": { "zh": "怀远坊", "en": "Huaiyuan Ward" },
+  "district": "D4",
+  "grid": { "row": 3, "col": 3 },
+  "history": {
+    "summary": "怀远坊在长安县东北, 邻西市。坊内有大秦寺(景教/聂斯托利派, 公元 638 年随阿罗本入唐立寺); 又有波斯邸(粟特商邸), 商旅辐辏。多种宗教并存的丝路文化窗口。", 
+    "sources": ["《长安志》卷十", "《大秦景教流行中国碑》781", "《新唐书·西域传》"],
+    "famousPeople": ["阿罗本(景教士)", "粟特商首"]
+  },
+  "build": {
+    "impl": "lib/hero/huaiyuan-jingjiao.js",
+    "options": {
+      "daqinSi": true,
+      "nestorianStele": { "year": 781, "text": "景教碑文" },
+      "persianAlley": true,
+      "merchantCompounds": 5
+    }
+  },
+  "npcs": [
+    { "id": "aluoben", "name": "阿罗本(景教士)", "role": "foreigner", "persona": "data/personas/aluoben.json", "spawn": { "offsetX": 0, "offsetZ": -4 } },
+    { "id": "sogdian-leader", "name": "粟特商首·安伽之父", "role": "foreigner", "spawn": { "offsetX": 8, "offsetZ": 0 } },
+    { "id": "translator-tang", "name": "唐译经师", "role": "scholar", "spawn": { "offsetX": -8, "offsetZ": -2 } }
+  ],
+  "interactions": [
+    { "type": "mural", "id": "nestorian-stele", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": -6 } },
+    { "type": "archive", "id": "silkroad-religions", "trigger": { "kind": "click", "offsetX": 0, "offsetZ": 0 } }
+  ],
+  "ambient": { "music": "silk-strings" },
+  "status": "planned"
+}
